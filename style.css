@@ -1,0 +1,19 @@
+:root {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+div:has(canvas) {
+  display: flex;
+  justify-content: center;
+}
+
+canvas {
+  border: 3px solid black;
+  width: 600px;
+  height: 600px;
+}
