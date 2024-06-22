@@ -1,9 +1,10 @@
 export default class Animation {
-  constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames) {
+  constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames, getOtherAssets) {
     this.image = new Image();
     this.image.src = fileLocation;
     this.width = width;
     this.height = height;
+    this.direction = direction;
     this.scale = scale;
     this.actualWidth = this.width * this.scale;
     this.actualHeight = this.height * this.scale;
@@ -14,14 +15,13 @@ export default class Animation {
     this.canvasHeight = canvasHeight;
     this.row = row;
     this.numOfFrames = numOfFrames;
+    this.getOtherAssets = getOtherAssets;
     this.frame = -1; // so first call to next will get first frame
 
     this.frames = [];
-    for(let frame = 0; frame < numOfFrames; frame++) {
-      this.frames.push(this.cell(frame,row));
+    for(let f = 0; f < numOfFrames; f++) {
+      this.frames.push(this.cell(f,row));
     }
-
-    this.direction = direction;
   }
 
   // manually-reset the cycle for an existing object
@@ -30,10 +30,13 @@ export default class Animation {
   }
 
   next(ctx, assetSpeed) {
+    if (this.collided) return;
+
     if (this.frame + 1 < this.numOfFrames) this.frame++;
     else this.frame = 0;
 
     this.move(assetSpeed);
+    this.checkForCollision();
 
     const animationFrame = this.frames[this.frame];
     const canvasLocation = [-this.actualWidth / 2, -this.actualHeight / 2, this.actualWidth, this.actualHeight];
@@ -80,6 +83,19 @@ export default class Animation {
     if (movementRules[direction]) movementRules[direction]();
   }
 
+  // Pythagorean theorem FTW: width used as radius of the circle
+  checkForCollision() {
+    this.getOtherAssets(this).forEach((that) => {
+      const xDistance = Math.abs(this.centerX - that.centerX);
+      const yDistance = Math.abs(this.centerY - that.centerY);
+      const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+      const touchingDistance = Math.abs(this.actualWidth / 2 + that.actualWidth / 2);
+      if (distance <= touchingDistance) {
+        this.collided = true;
+      }
+    })
+  }
+
   cell(frame, row) {
     return [
       this.width * frame,
@@ -89,10 +105,10 @@ export default class Animation {
     ]
   }
 
-  static load(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, cfg) {
+  static load(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, cfg, getOtherAssets) {
     const animations = {};
 
-    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames));
+    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames, getOtherAssets));
     
     return animations;
   }
