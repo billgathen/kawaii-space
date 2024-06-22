@@ -5,10 +5,10 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = canvas.height = 600;
 let gameFrame = 0;
-let throttle = 5;
-let assetSpeed = 4;
-const spaceshipSprites = new SpaceshipSprites(300, 300, 600, 600);
-let ship1 = spaceshipSprites.animations.ship1;
+const throttle = 5;
+const assetSpeed = 4;
+const spaceshipSprites = new SpaceshipSprites(300, 300, 0.25, 600, 600);
+const ship1 = spaceshipSprites.animations.ship1;
 
 document.addEventListener('keyup', e => {
   if (e.key == 'a') { 

@@ -1,9 +1,12 @@
 export default class Animation {
-  constructor(fileLocation, width, height, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames) {
+  constructor(fileLocation, width, height, scale, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames) {
     this.image = new Image();
     this.image.src = fileLocation;
     this.width = width;
     this.height = height;
+    this.scale = scale;
+    this.actualWidth = this.width * this.scale;
+    this.actualHeight = this.height * this.scale;
     this.moves = moves;
     this.centerX = centerX;
     this.centerY = centerY;
@@ -33,7 +36,7 @@ export default class Animation {
     this.move(assetSpeed);
 
     const animationFrame = this.frames[this.frame];
-    const canvasLocation = [-this.width / 2, -this.height / 2, this.width, this.height];
+    const canvasLocation = [-this.actualWidth / 2, -this.actualHeight / 2, this.actualWidth, this.actualHeight];
 
     ctx.save(); // save the current drawing state
     ctx.translate(this.centerX, this.centerY);
@@ -47,10 +50,10 @@ export default class Animation {
 
     const currentSpeed = ['45deg', '135deg', '225deg', '315deg'].indexOf(direction) > -1 ? assetSpeed * 0.75 : assetSpeed;
 
-    const hasRoomAbove = this.centerY - currentSpeed > this.height / 2;
-    const hasRoomRight = this.centerX + currentSpeed < this.canvasWidth - this.width / 2;
-    const hasRoomBelow = this.centerY + currentSpeed < this.canvasHeight - this.height / 2;
-    const hasRoomLeft  = this.centerX - currentSpeed > this.width / 2;
+    const hasRoomAbove = this.centerY - currentSpeed > this.actualHeight / 2;
+    const hasRoomRight = this.centerX + currentSpeed < this.canvasWidth - this.actualWidth / 2;
+    const hasRoomBelow = this.centerY + currentSpeed < this.canvasHeight - this.actualHeight / 2;
+    const hasRoomLeft  = this.centerX - currentSpeed > this.actualWidth / 2;
 
     const movementRules = {
       "0deg": () => { if (hasRoomAbove) this.centerY -= currentSpeed },
@@ -86,10 +89,10 @@ export default class Animation {
     ]
   }
 
-  static load(fileLocation, w, h, moves, centerX, centerY, canvasWidth, canvasHeight, cfg) {
-    let animations = {};
+  static load(fileLocation, w, h, scale, moves, centerX, centerY, canvasWidth, canvasHeight, cfg) {
+    const animations = {};
 
-    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames));
+    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, scale, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames));
     
     return animations;
   }

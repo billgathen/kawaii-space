@@ -1,11 +1,12 @@
 import Animation from "./animation.js"
 
 export default class SpaceshipSprites {
-  constructor(centerX, centerY, canvasWidth, canvasHeight) {
+  constructor(centerX, centerY, scale, canvasWidth, canvasHeight) {
     this.animations = Animation.load(
       'images/spaceship-sprites.png',
       300, 
       300, 
+      scale,
       true,
       centerX,
       centerY,
