@@ -14,20 +14,20 @@ const ship2 = spaceshipSprites2.animations.ship1;
 
 document.addEventListener('keyup', e => {
   if (e.key == 'a') { 
-    if (ship1.rotation > 0) ship1.rotation -= 45;
-    else ship1.rotation = 315;
+    if (ship1.direction > 0) ship1.direction -= 45;
+    else ship1.direction = 315;
   }
   if (e.key == 'd') {
-    if (ship1.rotation < 315) ship1.rotation += 45;
-    else ship1.rotation = 0;
+    if (ship1.direction < 315) ship1.direction += 45;
+    else ship1.direction = 0;
   }
   if (e.key == 'j') { 
-    if (ship2.rotation > 0) ship2.rotation -= 45;
-    else ship2.rotation = 315;
+    if (ship2.direction > 0) ship2.direction -= 45;
+    else ship2.direction = 315;
   }
   if (e.key == 'l') {
-    if (ship2.rotation < 315) ship2.rotation += 45;
-    else ship2.rotation = 0;
+    if (ship2.direction < 315) ship2.direction += 45;
+    else ship2.direction = 0;
   }
 });
 
