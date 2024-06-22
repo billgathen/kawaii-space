@@ -1,5 +1,5 @@
 export default class Animation {
-  constructor(fileLocation, width, height, scale, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames) {
+  constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames) {
     this.image = new Image();
     this.image.src = fileLocation;
     this.width = width;
@@ -21,7 +21,7 @@ export default class Animation {
       this.frames.push(this.cell(frame,row));
     }
 
-    this.rotation = 0;
+    this.direction = direction;
   }
 
   // manually-reset the cycle for an existing object
@@ -40,13 +40,13 @@ export default class Animation {
 
     ctx.save(); // save the current drawing state
     ctx.translate(this.centerX, this.centerY);
-    ctx.rotate(this.rotation * Math.PI / 180);
+    ctx.rotate(this.direction * Math.PI / 180);
     ctx.drawImage(this.image, ...animationFrame, ...canvasLocation);
     ctx.restore(); // restore the drawing state  
   }
 
   move(assetSpeed) {
-    const direction = `${this.rotation}deg`;
+    const direction = `${this.direction}deg`;
 
     const currentSpeed = ['45deg', '135deg', '225deg', '315deg'].indexOf(direction) > -1 ? assetSpeed * 0.75 : assetSpeed;
 
@@ -89,10 +89,10 @@ export default class Animation {
     ]
   }
 
-  static load(fileLocation, w, h, scale, moves, centerX, centerY, canvasWidth, canvasHeight, cfg) {
+  static load(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, cfg) {
     const animations = {};
 
-    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, scale, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames));
+    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames));
     
     return animations;
   }
