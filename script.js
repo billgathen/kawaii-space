@@ -56,6 +56,19 @@ document.addEventListener('keyup', e => {
   }
 });
 
+document.addEventListener('touchstart', e => {
+  if (ship.collided) return;
+
+  const touchX = e.touches[0].clientX;
+  if (touchX < window.innerWidth / 2) {
+    if (ship.direction > 0) ship.direction -= 45;
+    else ship.direction = 315;
+  } else {
+    if (ship.direction < 315) ship.direction += 45;
+    else ship.direction = 0;
+  }
+});
+
 function animate() {
   if (gameFrame % throttle == 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);

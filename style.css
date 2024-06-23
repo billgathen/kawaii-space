@@ -1,22 +1,43 @@
 :root {
-  box-sizing: border-box;
   font-family: "Varela Round", system-ui, sans-serif; /* Google Font */
   --medium: #ff69cd;
   --light: #ffdaf3;
 }
 
-header {
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
   width: 600px;
+  margin: 0.5em auto;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  gap: 0.5em;
+}
+
+@media(max-width: 600px) {
+  body {
+    width: 100vw;
+    background-color: grey;
+  }
+
+  canvas {
+    width: 100vw;
+    height: 100vw;
+  }
+}
+
+footer {
+  display: grid;
+  grid-template-columns: auto auto;
   align-items: center;
-  margin: 0 auto;
 }
 
 h1 {
+  margin: 0;
   text-align: center;
   font-size: 300%;
-  color: var(--medium)
+  color: var(--medium);
 }
 
 button {
@@ -31,13 +52,18 @@ button:hover {
   background-color: var(--light);
 }
 
-div:has(canvas) {
-  display: flex;
-  justify-content: center;
-}
-
 canvas {
   border: 3px solid var(--medium);
   width: 600px;
   height: 600px;
+}
+
+#steering::after {
+  content: "Use left/right arrows";
+}
+
+@media(hover: none) {
+  #steering::after {
+    content: 'Tap left/right';
+  }
 }
