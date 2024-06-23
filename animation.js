@@ -106,7 +106,7 @@ export default class Animation {
       const xDistance = Math.abs(this.centerX - that.centerX);
       const yDistance = Math.abs(this.centerY - that.centerY);
       const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
-      const touchingDistance = Math.abs(this.actualWidth / 2 + that.actualWidth / 2);
+      const touchingDistance = Math.abs(this.actualWidth * 0.4 + that.actualWidth * 0.4);
       if (distance <= touchingDistance) {
         this.collided = true;
         this.currentAnimation = 1;
