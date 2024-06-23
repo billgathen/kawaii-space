@@ -41,7 +41,7 @@ export default class Sprites {
       { row: 2, frames: 12 },
     ],
     moon: [
-      { row: 3, frames: 1 }
+      { row: 3, frames: 7 }
     ]
   }
 

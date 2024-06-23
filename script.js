@@ -38,10 +38,14 @@ allAssets.push(ship);
   [88, 97],
   [507, 545]
 ].forEach(coords => {
-  allAssets.push(sprites.buildStatic('moon', ...coords, 0.25));
+  const moon = sprites.buildStatic('moon', ...coords, 0.25)
+  moon.levelOfChill = 2;
+  allAssets.push(moon);
 });
 
 document.addEventListener('keyup', e => {
+  if (ship.collided) return;
+  
   if (e.key == 'a') { 
     if (ship.direction > 0) ship.direction -= 45;
     else ship.direction = 315;
