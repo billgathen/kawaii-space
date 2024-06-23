@@ -18,7 +18,6 @@ body {
 @media(max-width: 600px) {
   body {
     width: 100vw;
-    background-color: grey;
   }
 
   canvas {
@@ -45,6 +44,7 @@ button {
   border-radius: 1em;
   background-color: var(--medium);
   border-color: var(--light);
+  color: black;
 }
 
 button:hover {
