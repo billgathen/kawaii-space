@@ -45,12 +45,12 @@ allAssets.push(ship);
 
 document.addEventListener('keyup', e => {
   if (ship.collided) return;
-  
-  if (e.key == 'a') { 
+
+  if (e.key == 'ArrowLeft') { 
     if (ship.direction > 0) ship.direction -= 45;
     else ship.direction = 315;
   }
-  if (e.key == 'd') {
+  if (e.key == 'ArrowRight') {
     if (ship.direction < 315) ship.direction += 45;
     else ship.direction = 0;
   }
