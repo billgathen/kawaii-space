@@ -1,5 +1,5 @@
 export default class Animation {
-  constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, row, numOfFrames, getOtherAssets) {
+  constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.image = new Image();
     this.image.src = fileLocation;
     this.width = width;
@@ -13,15 +13,27 @@ export default class Animation {
     this.centerY = centerY;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
-    this.row = row;
-    this.numOfFrames = numOfFrames;
+    this.animations = animations;
+    this.currentAnimation = 0;
+    this._levelOfChill = 1; // minimal chill: maximum animation speed
+    this.currentChill = this._levelOfChill;
     this.getOtherAssets = getOtherAssets;
-    this.frame = -1; // so first call to next will get first frame
+    this.frame = Math.floor(Math.random() * this.animations[this.currentAnimation].frames - 1);
 
-    this.frames = [];
-    for(let f = 0; f < numOfFrames; f++) {
-      this.frames.push(this.cell(f,row));
+    this.frames = this.loadAnimation();
+  }
+
+  set levelOfChill(lvl) {
+    this._levelOfChill = lvl;
+  }
+
+  loadAnimation() {
+    const frames = [];
+    const cfg = this.animations[this.currentAnimation];
+    for(let f = 0; f < cfg.frames; f++) {
+      frames.push(this.cell(f,cfg.row));
     }
+    return frames;
   }
 
   // manually-reset the cycle for an existing object
@@ -30,13 +42,18 @@ export default class Animation {
   }
 
   next(ctx, assetSpeed) {
-    if (this.collided) return;
+    // if (this.collided) return;
 
-    if (this.frame + 1 < this.numOfFrames) this.frame++;
-    else this.frame = 0;
+    if (--this.currentChill <= 0) {
+      if (this.frame + 1 < this.frames.length) this.frame++;
+      else this.frame = 0;
+      this.currentChill = this._levelOfChill;
+    }
 
-    this.move(assetSpeed);
-    this.checkForCollision();
+    if (this.moves) {
+      this.move(assetSpeed);
+      this.checkForCollision();
+    }
 
     const animationFrame = this.frames[this.frame];
     const canvasLocation = [-this.actualWidth / 2, -this.actualHeight / 2, this.actualWidth, this.actualHeight];
@@ -92,6 +109,9 @@ export default class Animation {
       const touchingDistance = Math.abs(this.actualWidth / 2 + that.actualWidth / 2);
       if (distance <= touchingDistance) {
         this.collided = true;
+        this.currentAnimation = 1;
+        this.frames = this.loadAnimation();
+        this.moves = false;
       }
     })
   }
