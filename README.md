@@ -11,7 +11,7 @@ NOTES
 
 Use any basic HTTP server to serve index.html locally: I use Live Server (Ritwick Dey) in VSCode.
 
-To get cache-busting, I use the following as a git pre-push hook on my Mac:
+To get cache-busting, I use the following as a git pre-commit hook on my Mac:
 
 ```shell
 #!/bin/sh
@@ -26,8 +26,5 @@ sed -i '' "s/script.js\?v=[^\"']*/script.js?v=$COMMIT_ID/" index.html
 # Add the modified index.html to the staging area
 git add index.html
 
-# Amend the last commit without changing its message
-git commit --amend --no-edit
-
-# The push will proceed after this script finishes
+# The commit will continue with the change included
 ```
