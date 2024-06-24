@@ -42,6 +42,12 @@ export default class Sprites {
     ],
     moon: [
       { row: 3, frames: 7 }
+    ],
+    alien1: [
+      { row: 4, frames: 1 }
+    ],
+    alien2: [
+      { row: 5, frames: 12 }
     ]
   }
 

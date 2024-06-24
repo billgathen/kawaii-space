@@ -42,6 +42,9 @@ allAssets.push(ship);
   moon.levelOfChill = 2;
   allAssets.push(moon);
 });
+const alien2 = sprites.buildStatic('alien2', 150, 300, 0.25);
+alien2.levelOfChill = 4;
+allAssets.push(alien2);
 
 document.addEventListener('keyup', e => {
   if (ship.collided) return;
