@@ -4,27 +4,6 @@ const fileLocation = 'images/kawaii-space-sprites.png';
 const width = 300;
 const height = 300;
 
-class SpaceshipSprites {
-  constructor(centerX, centerY, direction, scale, canvasWidth, canvasHeight, getOtherAssets) {
-    this.animations = Animation.load(
-      fileLocation,
-      width, 
-      height, 
-      direction,
-      scale,
-      true, // moving object
-      centerX,
-      centerY,
-      canvasWidth,
-      canvasHeight,
-      [
-        { name: "ship1", frames: 9 },
-      ],
-      getOtherAssets
-    );
-  }
-}
-
 export default class Sprites {
   constructor(canvasWidth, canvasHeight, getOtherAssets) {
     this.canvasWidth = canvasWidth;
