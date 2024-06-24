@@ -19,7 +19,7 @@ To get cache-busting, I use the following as a git pre-push hook on my Mac:
 # Calculate the current commit ID
 COMMIT_ID=$(git rev-parse --short=7 HEAD)
 
-# Use sed to replace CACHEBUSTED with the commit ID in index.html
+# Use sed to replace existing ID with the commit ID in index.html
 sed -i '' "s/style.css\?v=[^\"']*/style.css?v=$COMMIT_ID/" index.html
 sed -i '' "s/script.js\?v=[^\"']*/script.js?v=$COMMIT_ID/" index.html
 
