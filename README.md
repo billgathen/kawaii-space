@@ -19,12 +19,13 @@ To get cache-busting, I use the following as a git pre-commit hook on my Mac:
 # Calculate the current time in millis
 NOW=$(date +%s%3N)
 
-# Use sed to existing IDs with the current time
+# Use sed to replace existing IDs with the current time
 sed -i '' "s/cache-busting=[^\"']*/cache-busting=$NOW/g" index.html
 sed -i '' "s/cache-busting=[^\"']*/cache-busting=$NOW/g" *.js
 
-# Add the modified index.html to the staging area
+# Add potentially-modified files to the staging area
 git add index.html
+git add *.js
 
 # The commit will continue with the change included
 ```
