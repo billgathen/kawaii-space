@@ -1,7 +1,7 @@
 export default class Animation {
   constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17194054953N";
+    this.image.src = fileLocation + "?cache-busting=17195400353N";
     this.width = width;
     this.height = height;
     this.direction = direction;
@@ -42,7 +42,7 @@ export default class Animation {
   }
 
   next(ctx, assetSpeed) {
-    // if (this.collided) return;
+    if (this.collided && this.frame + 1 === this.frames.length) return;
 
     if (--this.currentChill <= 0) {
       if (this.frame + 1 < this.frames.length) this.frame++;
@@ -52,6 +52,9 @@ export default class Animation {
 
     if (this.moves) {
       this.move(assetSpeed);
+    }
+
+    if (this.animations[this.currentAnimation].reactsToCollisions) {
       this.checkForCollision();
     }
 
@@ -103,15 +106,19 @@ export default class Animation {
   // Pythagorean theorem FTW: width used as radius of the circle
   checkForCollision() {
     this.getOtherAssets(this).forEach((that) => {
-      const xDistance = Math.abs(this.centerX - that.centerX);
-      const yDistance = Math.abs(this.centerY - that.centerY);
+      const xDistance = this.centerX - that.centerX;
+      const yDistance = this.centerY - that.centerY;
       const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
       const touchingDistance = Math.abs(this.actualWidth * 0.4 + that.actualWidth * 0.4);
       if (distance <= touchingDistance) {
-        this.collided = true;
-        this.currentAnimation = 1;
-        this.frames = this.loadAnimation();
-        this.moves = false;
+        if (! that.animations[0].goalObject) { // crash!!!
+          this.collided = true;
+          if (this.animations.length > 1) { // has collision animation
+            this.currentAnimation = 1;
+          }
+          this.frames = this.loadAnimation();
+          this.moves = false;
+        }
       }
     })
   }

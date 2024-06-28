@@ -1,4 +1,4 @@
-import Sprites from "./sprites.js?cache-busting=17194054953N";
+import Sprites from "./sprites.js?cache-busting=17195400353N";
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
@@ -12,10 +12,6 @@ let allAssets = [];
 function getOtherAssets(callingAsset) {
   return allAssets.filter(asset => asset !== callingAsset);
 }
-
-// function clearCollidedAssets() {
-//   allAssets = allAssets.filter(asset => !asset.collided);
-// }
 
 const sprites = new Sprites(canvas.width, canvas.height, getOtherAssets);
 const ship = sprites.buildDynamic('ship', 300, 300, 0.25);
@@ -42,9 +38,17 @@ allAssets.push(ship);
   moon.levelOfChill = 2;
   allAssets.push(moon);
 });
-const alien2 = sprites.buildStatic('alien2', 150, 300, 0.25);
+
+const alien1 = sprites.buildStatic('alien1', 550, 200, 0.25);
+allAssets.push(alien1);
+
+const alien2 = sprites.buildStatic('alien2', 50, 400, 0.25);
 alien2.levelOfChill = 4;
 allAssets.push(alien2);
+
+const debris2 = sprites.buildStatic('debris2', 100, 550, 0.25);
+debris2.levelOfChill = 4;
+allAssets.push(debris2);
 
 document.addEventListener('keyup', e => {
   if (ship.collided) return;
@@ -76,7 +80,6 @@ function animate() {
   if (gameFrame % throttle == 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     allAssets.forEach(asset => asset.next(ctx, assetSpeed));
-    // clearCollidedAssets();
   }
   
   gameFrame++;

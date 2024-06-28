@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17194054953N"
+import Animation from "./animation.js?cache-busting=17195400353N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const width = 300;
@@ -11,9 +11,11 @@ export default class Sprites {
     this.getOtherAssets = getOtherAssets;
   }
 
+  successAnimation = { row: 8, frames: 12 }
+
   sprites = {
     ship: [
-      { row: 0, frames: 9 },
+      { row: 0, frames: 9, reactsToCollisions: true },
       { row: 1, frames: 9 },
     ],
     star: [
@@ -23,10 +25,23 @@ export default class Sprites {
       { row: 3, frames: 7 }
     ],
     alien1: [
-      { row: 4, frames: 1 }
+      { row: 4, frames: 1, reactsToCollisions: true, goalObject: true },
+      this.successAnimation
     ],
     alien2: [
-      { row: 5, frames: 12 }
+      { row: 5, frames: 12, reactsToCollisions: true, goalObject: true },
+      this.successAnimation
+    ],
+    debris1: [
+      { row: 6, frames: 1, reactsToCollisions: true, goalObject: true },
+      this.successAnimation
+    ],
+    debris2: [
+      { row: 7, frames: 7, reactsToCollisions: true, goalObject: true },
+      this.successAnimation
+    ],
+    heart: [
+      this.successAnimation
     ]
   }
 
