@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17195400353N"
+import Animation from "./animation.js?cache-busting=17195870923N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const width = 300;
@@ -16,7 +16,7 @@ export default class Sprites {
   sprites = {
     ship: [
       { row: 0, frames: 9, reactsToCollisions: true },
-      { row: 1, frames: 9 },
+      { row: 1, frames: 9, playerObject: true },
     ],
     star: [
       { row: 2, frames: 12 },

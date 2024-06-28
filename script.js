@@ -1,4 +1,4 @@
-import Sprites from "./sprites.js?cache-busting=17195400353N";
+import Sprites from "./sprites.js?cache-busting=17195870923N";
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
