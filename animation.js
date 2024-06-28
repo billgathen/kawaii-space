@@ -1,7 +1,7 @@
 export default class Animation {
   constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17195875353N";
+    this.image.src = fileLocation + "?cache-busting=17196077233N";
     this.width = width;
     this.height = height;
     this.direction = direction;
@@ -14,11 +14,11 @@ export default class Animation {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.animations = animations;
-    this.currentAnimation = 0;
+    this.currentAnimationIdx = 0;
     this._levelOfChill = 1; // minimal chill: maximum animation speed
     this.currentChill = this._levelOfChill;
     this.getOtherAssets = getOtherAssets;
-    this.frame = Math.floor(Math.random() * this.animations[this.currentAnimation].frames - 1);
+    this.frame = Math.floor(Math.random() * this.animation.frames - 1);
 
     this.frames = this.loadAnimation();
   }
@@ -27,9 +27,13 @@ export default class Animation {
     this._levelOfChill = lvl;
   }
 
+  get animation() {
+    return this.animations[this.currentAnimationIdx];
+  }
+
   loadAnimation() {
     const frames = [];
-    const cfg = this.animations[this.currentAnimation];
+    const cfg = this.animation;
     for(let f = 0; f < cfg.frames; f++) {
       frames.push(this.cell(f,cfg.row));
     }
@@ -42,7 +46,7 @@ export default class Animation {
   }
 
   next(ctx, assetSpeed) {
-    if (this.animations[this.currentAnimation].oneShot && this.frame + 1 === this.frames.length) return;
+    if (this.animation.oneShot && this.frame + 1 === this.frames.length) return;
 
     if (--this.currentChill <= 0) {
       if (this.frame + 1 < this.frames.length) this.frame++;
@@ -54,7 +58,7 @@ export default class Animation {
       this.move(assetSpeed);
     }
 
-    if (this.animations[this.currentAnimation].reactsToCollisions) {
+    if (this.animation.reactsToCollisions) {
       this.checkForCollision();
     }
 
@@ -114,13 +118,20 @@ export default class Animation {
         if (! that.animations[0].goalObject) { // crash!!!
           this.collided = true;
           if (this.animations.length > 1) { // has collision animation
-            this.currentAnimation = 1;
+            this.currentAnimationIdx = 1;
           }
           this.frames = this.loadAnimation();
           this.moves = false;
+          this.play(this.animation.sound);
+        } else {
+          this.play(that.animations[0].sound);
         }
       }
     })
+  }
+
+  play(sound) {
+    if (sound) new Audio('sounds/' + sound).play();
   }
 
   cell(frame, row) {
