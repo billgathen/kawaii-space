@@ -1,21 +1,11 @@
-import Sprites from "./sprites.js?cache-busting=17196099133N";
+import Sprites from "./sprites.js?cache-busting=17196140603N";
+import Canvas from "./canvas.js?cache-busting=17196140603N";
 
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
+const canvas = new Canvas(600);
 
-canvas.width = canvas.height = 600;
-let gameFrame = 0;
-const throttle = 5;
-const assetSpeed = 4;
-let allAssets = [];
-
-function getOtherAssets(callingAsset) {
-  return allAssets.filter(asset => asset !== callingAsset);
-}
-
-const sprites = new Sprites(canvas.width, canvas.height, getOtherAssets);
+const sprites = new Sprites(canvas.width, canvas.height, canvas.getOtherAssets);
 const ship = sprites.buildDynamic('ship', 300, 300, 0.25);
-allAssets.push(ship);
+canvas.allAssets.push(ship);
 [
   [150, 150],
   [275, 500],
@@ -24,7 +14,7 @@ allAssets.push(ship);
 ].forEach(coords => {
   const star = sprites.buildStatic('star', ...coords, 0.25);
   star.levelOfChill = 3;
-  allAssets.push(star);
+  canvas.allAssets.push(star);
 });
 
 [
@@ -36,19 +26,19 @@ allAssets.push(ship);
 ].forEach(coords => {
   const moon = sprites.buildStatic('moon', ...coords, 0.25)
   moon.levelOfChill = 2;
-  allAssets.push(moon);
+  canvas.allAssets.push(moon);
 });
 
 const alien1 = sprites.buildStatic('alien1', 550, 200, 0.25);
-allAssets.push(alien1);
+canvas.allAssets.push(alien1);
 
 const alien2 = sprites.buildStatic('alien2', 50, 400, 0.25);
 alien2.levelOfChill = 4;
-allAssets.push(alien2);
+canvas.allAssets.push(alien2);
 
 const debris2 = sprites.buildStatic('debris2', 100, 550, 0.25);
 debris2.levelOfChill = 4;
-allAssets.push(debris2);
+canvas.allAssets.push(debris2);
 
 document.addEventListener('keyup', e => {
   if (ship.collided) return;
@@ -93,14 +83,4 @@ function loadSound(name, path) {
   .catch(error => console.error('Error fetching audio:', error));
 }
 
-function animate() {
-  if (gameFrame % throttle == 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    allAssets.forEach(asset => asset.next(ctx, assetSpeed));
-  }
-  
-  gameFrame++;
-  requestAnimationFrame(animate);
-}
-
-animate();
+canvas.animate();
