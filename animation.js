@@ -1,7 +1,7 @@
 export default class Animation {
   constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17195870923N";
+    this.image.src = fileLocation + "?cache-busting=17195875353N";
     this.width = width;
     this.height = height;
     this.direction = direction;
@@ -42,9 +42,7 @@ export default class Animation {
   }
 
   next(ctx, assetSpeed) {
-    if (! this.animations[this.currentAnimation].playerObject) { /* player collision loops forever */
-      if (this.collided && this.frame + 1 === this.frames.length) return;
-    }
+    if (this.animations[this.currentAnimation].oneShot && this.frame + 1 === this.frames.length) return;
 
     if (--this.currentChill <= 0) {
       if (this.frame + 1 < this.frames.length) this.frame++;
