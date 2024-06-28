@@ -1,4 +1,4 @@
-import Sprites from "./sprites.js?cache-busting=17196077233N";
+import Sprites from "./sprites.js?cache-busting=17196099133N";
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
@@ -75,6 +75,23 @@ document.addEventListener('touchstart', e => {
     else ship.direction = 0;
   }
 });
+
+loadSound('gobble', 'magic-sfx-preview-pack/healing-full.wav');
+loadSound('crash', 'magic-sfx-preview-pack/fire-impact-1.wav');
+
+function loadSound(name, path) {
+  fetch(`sounds/${path}`)
+  .then(response => response.blob())
+  .then(blob => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      localStorage.setItem(name, base64data);
+    };
+  })
+  .catch(error => console.error('Error fetching audio:', error));
+}
 
 function animate() {
   if (gameFrame % throttle == 0) {

@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17196077233N"
+import Animation from "./animation.js?cache-busting=17196099133N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const width = 300;
@@ -11,12 +11,12 @@ export default class Sprites {
     this.getOtherAssets = getOtherAssets;
   }
 
-  successAnimation = { row: 8, frames: 12, oneShot: true, sound: 'magic-sfx-preview-pack/healing-full.wav' }
+  successAnimation = { row: 8, frames: 12, oneShot: true, sound: 'gobble' }
 
   sprites = {
     ship: [
       { row: 0, frames: 9, reactsToCollisions: true },
-      { row: 1, frames: 9, sound: 'magic-sfx-preview-pack/fire-impact-1.wav' },
+      { row: 1, frames: 9, sound: 'crash' },
     ],
     star: [
       { row: 2, frames: 12 },

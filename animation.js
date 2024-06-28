@@ -1,7 +1,7 @@
 export default class Animation {
   constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17196077233N";
+    this.image.src = fileLocation + "?cache-busting=17196099133N";
     this.width = width;
     this.height = height;
     this.direction = direction;
@@ -131,7 +131,7 @@ export default class Animation {
   }
 
   play(sound) {
-    if (sound) new Audio('sounds/' + sound).play();
+    if (sound) new Audio(localStorage.getItem(sound)).play();
   }
 
   cell(frame, row) {
