@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17196140603N";
-import Canvas from "./canvas.js?cache-busting=17196140603N";
+import Sprites from "./sprites.js?cache-busting=17196903073N";
+import Canvas from "./canvas.js?cache-busting=17196903073N";
 
 const canvas = new Canvas(600);
 
