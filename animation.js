@@ -1,7 +1,7 @@
 export default class Animation {
   constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17196906653N";
+    this.image.src = fileLocation + "?cache-busting=17196908853N";
     this.width = width;
     this.height = height;
     this.direction = direction;
@@ -133,7 +133,7 @@ export default class Animation {
   play(sound) {
     if (sound) {
       const audio = new Audio(localStorage.getItem(sound));
-      audio.volume = 0.5;
+      audio.volume = 0.33;
       audio.play();
     }
   }
