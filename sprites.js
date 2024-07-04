@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17201225733N"
+import Animation from "./animation.js?cache-busting=17201241933N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const spriteWidth = 300;
@@ -63,36 +63,38 @@ export default class Sprites {
         animations: newAnimation
       });
 
-      if (name === 'ship') {
-        document.addEventListener('keyup', e => {
-          if (animation.collided) return;
-  
-          if (e.key == 'ArrowLeft') { 
-            if (animation.direction > 0) animation.direction -= 45;
-            else animation.direction = 315;
-          }
-          if (e.key == 'ArrowRight') {
-            if (animation.direction < 315) animation.direction += 45;
-            else animation.direction = 0;
-          }
-        });
-  
-        document.addEventListener('touchstart', e => {
-          if (animation.collided) return;
-  
-          const touchX = e.touches[0].clientX;
-          if (touchX < window.innerWidth / 2) {
-            if (animation.direction > 0) animation.direction -= 45;
-            else animation.direction = 315;
-          } else {
-            if (animation.direction < 315) animation.direction += 45;
-            else animation.direction = 0;
-          }
-        });
-      }
+      if (name === 'ship') this.setupShip(animation);
 
       return animation;
 
     } else throw new Error(`Missing sprite named '${name}'`)
+  }
+
+  setupShip(ship) {
+    document.addEventListener('keyup', e => {
+      if (ship.collided) return;
+
+      if (e.key == 'ArrowLeft') { 
+        if (ship.direction > 0) ship.direction -= 45;
+        else ship.direction = 315;
+      }
+      if (e.key == 'ArrowRight') {
+        if (ship.direction < 315) ship.direction += 45;
+        else ship.direction = 0;
+      }
+    });
+
+    document.addEventListener('touchstart', e => {
+      if (ship.collided) return;
+
+      const touchX = e.touches[0].clientX;
+      if (touchX < window.innerWidth / 2) {
+        if (ship.direction > 0) ship.direction -= 45;
+        else ship.direction = 315;
+      } else {
+        if (ship.direction < 315) ship.direction += 45;
+        else ship.direction = 0;
+      }
+    });
   }
 }
