@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17201241933N";
-import { levels } from "./config.js?cache-busting=17201241933N";
+import Sprites from "./sprites.js?cache-busting=17201279123N";
+import { levels } from "./config.js?cache-busting=17201279123N";
 
 const throttle = 5;
 const assetSpeed = 4;
@@ -9,6 +9,7 @@ export default class Canvas {
   constructor(width, height = 0) {
     this.canvas = document.querySelector('canvas');
     this.ctx = this.canvas.getContext('2d');
+    this.ctx.font = '20px Arial';
 
     this.canvas.width = width;
     this.canvas.height = height == 0 ? width : height; /* default to square */

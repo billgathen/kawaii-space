@@ -2,7 +2,7 @@ export default class Animation {
   constructor(sprite) {
     this.sprite = sprite;
     this.image = new Image();
-    this.image.src = sprite.fileLocation + "?cache-busting=17201241933N";
+    this.image.src = sprite.fileLocation + "?cache-busting=17201279123N";
     this.centerX = sprite.centerX;
     this.centerY = sprite.centerY;
     this.width = sprite.width;
@@ -20,6 +20,8 @@ export default class Animation {
     this.frame = Math.floor(Math.random() * (this.animation.frames - 1));
 
     this.frames = this.loadAnimation();
+
+    this.score = 0;
   }
 
   get animation() {
@@ -65,10 +67,12 @@ export default class Animation {
       ctx.rotate(this.direction * Math.PI / 180);
       const canvasLocation = [-this.actualWidth / 2, -this.actualHeight / 2, this.actualWidth, this.actualHeight];
       ctx.drawImage(this.image, ...animationFrame, ...canvasLocation);
+      this.displayScore(ctx, canvasLocation);
       ctx.restore(); // restore the drawing state  
     } else {
       const canvasLocation = [this.centerX - this.actualWidth / 2, this.centerY - this.actualHeight / 2, this.actualWidth, this.actualHeight];
       ctx.drawImage(this.image, ...animationFrame, ...canvasLocation);
+      this.displayScore(ctx, canvasLocation);
     }
   }
 
@@ -115,7 +119,12 @@ export default class Animation {
       const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
       const touchingDistance = Math.abs(this.actualWidth * 0.4 + that.actualWidth * 0.4);
       if (distance <= touchingDistance) {
-        if (! that.animations[0].goalObject) { // crash!!!
+        if (that.animations[0].goalObject) {
+          this.play(that.animations[0].sound);
+          if (! that.collided) {
+            this.score++;
+          }
+        } else {
           this.collided = true;
           if (this.animations.length > 1) { // has collision animation
             this.currentAnimationIdx = 1;
@@ -123,8 +132,6 @@ export default class Animation {
           this.frames = this.loadAnimation();
           this.moves = false;
           this.play(this.animation.sound);
-        } else {
-          this.play(that.animations[0].sound);
         }
       }
     })
@@ -136,6 +143,20 @@ export default class Animation {
       audio.volume = 0.33;
       audio.play();
     }
+  }
+
+  displayScore(ctx, canvasLocation) {
+    if (this.score === 0) return;
+
+    const shrinkage = (3 - this.score) * 30; /* heart gets bigger as score increases */
+
+    canvasLocation[0] += (this.actualWidth + shrinkage) * 0.125;
+    canvasLocation[1] += (this.actualHeight + shrinkage) * 0.1;
+    canvasLocation[2] -= (this.actualWidth + shrinkage) * 0.25;
+    canvasLocation[3] -= (this.actualHeight + shrinkage) * 0.3;
+
+    const cell = this.cell(0, 8); /* heart */
+    ctx.drawImage(this.image, ...cell, ...canvasLocation);
   }
 
   cell(frame, row) {
