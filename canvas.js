@@ -11,7 +11,7 @@ export default class Canvas {
     this.canvas.width = width;
     this.canvas.height = height;
 
-    this._allAssets = [];
+    this._assets = [];
   }
 
   get width() {
@@ -22,18 +22,22 @@ export default class Canvas {
     return this.canvas.height;
   }
 
-  get allAssets() {
-    return this._allAssets;
+  get assets() {
+    return this._assets;
+  }
+
+  addAsset(asset) {
+    this._assets.push(asset);
   }
 
   getOtherAssets = (callingAsset) => {
-    return this.allAssets.filter(asset => asset !== callingAsset);
+    return this.assets.filter(asset => asset !== callingAsset);
   }
 
   animate = () => {
     if (gameFrame % throttle == 0) {
       this.ctx.clearRect(0, 0, this.width, this.height);
-      this.allAssets.forEach(asset => asset.next(this.ctx, assetSpeed));
+      this.assets.forEach(asset => asset.next(this.ctx, assetSpeed));
     }
     
     gameFrame++;

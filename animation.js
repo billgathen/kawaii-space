@@ -1,11 +1,12 @@
 export default class Animation {
-  constructor(fileLocation, width, height, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
+  constructor(name, fileLocation, width, height, direction, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
+    this.name = name;
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17196908853N";
+    this.image.src = fileLocation + "?cache-busting=17201165233N";
     this.width = width;
     this.height = height;
     this.direction = direction;
-    this.scale = scale;
+    this.scale = animations[0].scale;
     this.actualWidth = this.width * this.scale;
     this.actualHeight = this.height * this.scale;
     this.moves = moves;
@@ -15,16 +16,11 @@ export default class Animation {
     this.canvasHeight = canvasHeight;
     this.animations = animations;
     this.currentAnimationIdx = 0;
-    this._levelOfChill = 1; // minimal chill: maximum animation speed
-    this.currentChill = this._levelOfChill;
+    this.currentChill = animations[0].levelOfChill;
     this.getOtherAssets = getOtherAssets;
-    this.frame = Math.floor(Math.random() * this.animation.frames - 1);
+    this.frame = Math.floor(Math.random() * (this.animation.frames - 1));
 
     this.frames = this.loadAnimation();
-  }
-
-  set levelOfChill(lvl) {
-    this._levelOfChill = lvl;
   }
 
   get animation() {
@@ -51,7 +47,7 @@ export default class Animation {
     if (--this.currentChill <= 0) {
       if (this.frame + 1 < this.frames.length) this.frame++;
       else this.frame = 0;
-      this.currentChill = this._levelOfChill;
+      this.currentChill = this.animation.levelOfChill;
     }
 
     if (this.moves) {
@@ -63,13 +59,18 @@ export default class Animation {
     }
 
     const animationFrame = this.frames[this.frame];
-    const canvasLocation = [-this.actualWidth / 2, -this.actualHeight / 2, this.actualWidth, this.actualHeight];
-
-    ctx.save(); // save the current drawing state
-    ctx.translate(this.centerX, this.centerY);
-    ctx.rotate(this.direction * Math.PI / 180);
-    ctx.drawImage(this.image, ...animationFrame, ...canvasLocation);
-    ctx.restore(); // restore the drawing state  
+    
+    if (this.direction !== 0) {
+      ctx.save(); // save the current drawing state
+      ctx.translate(this.centerX, this.centerY);
+      ctx.rotate(this.direction * Math.PI / 180);
+      const canvasLocation = [-this.actualWidth / 2, -this.actualHeight / 2, this.actualWidth, this.actualHeight];
+      ctx.drawImage(this.image, ...animationFrame, ...canvasLocation);
+      ctx.restore(); // restore the drawing state  
+    } else {
+      const canvasLocation = [this.centerX - this.actualWidth / 2, this.centerY - this.actualHeight / 2, this.actualWidth, this.actualHeight];
+      ctx.drawImage(this.image, ...animationFrame, ...canvasLocation);
+    }
   }
 
   move(assetSpeed) {
@@ -147,10 +148,10 @@ export default class Animation {
     ]
   }
 
-  static load(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, cfg, getOtherAssets) {
+  static load(fileLocation, w, h, direction, moves, centerX, centerY, canvasWidth, canvasHeight, cfg, getOtherAssets) {
     const animations = {};
 
-    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, direction, scale, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames, getOtherAssets));
+    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, direction, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames, getOtherAssets));
     
     return animations;
   }
