@@ -1,15 +1,19 @@
+import Sprites from "./sprites.js?cache-busting=17201204683N";
+
 const throttle = 5;
 const assetSpeed = 4;
 let gameFrame = 0;
 
 export default class Canvas {
   constructor(width, height = 0) {
-    if (height === 0) height = width; /* default to square */
     this.canvas = document.querySelector('canvas');
     this.ctx = this.canvas.getContext('2d');
 
     this.canvas.width = width;
-    this.canvas.height = height;
+    this.canvas.height = height == 0 ? width : height; /* default to square */
+    this.sprites = new Sprites(this.canvas.width, this.canvas.height, this.getOtherAssets);
+
+    this.loadSounds(Object.values(this.sprites.sounds));
 
     this._assets = [];
   }
@@ -26,8 +30,12 @@ export default class Canvas {
     return this._assets;
   }
 
-  addAsset(asset) {
-    this._assets.push(asset);
+  addAsset(assetName, x, y) {
+    this._assets.push(this.sprites.build(assetName, x, y));
+  }
+
+  addAssets(assets) {
+    assets.forEach(asset => this.addAsset(...asset) );
   }
 
   getOtherAssets = (callingAsset) => {
@@ -35,11 +43,9 @@ export default class Canvas {
   }
 
   loadSound(sound) {
-    console.log(sound.name, sound.path)
     fetch(`sounds/${sound.path}`)
     .then(response => response.blob())
     .then(blob => {
-      console.log('got blob');
       const reader = new FileReader();
       reader.readAsDataURL(blob);
       reader.onloadend = () => {

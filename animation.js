@@ -1,20 +1,19 @@
 export default class Animation {
-  constructor(name, fileLocation, width, height, direction, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
+  constructor(name, fileLocation, width, height, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.name = name;
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17201177833N";
+    this.image.src = fileLocation + "?cache-busting=17201204683N";
     this.width = width;
     this.height = height;
-    this.direction = direction;
     this.scale = animations[0].scale;
     this.actualWidth = this.width * this.scale;
     this.actualHeight = this.height * this.scale;
-    this.moves = moves;
     this.centerX = centerX;
     this.centerY = centerY;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.animations = animations;
+    this.direction = 0;
     this.currentAnimationIdx = 0;
     this.currentChill = animations[0].levelOfChill;
     this.getOtherAssets = getOtherAssets;
@@ -50,7 +49,7 @@ export default class Animation {
       this.currentChill = this.animation.levelOfChill;
     }
 
-    if (this.moves) {
+    if (this.animation.moves) {
       this.move(assetSpeed);
     }
 
@@ -146,13 +145,5 @@ export default class Animation {
       this.width,
       this.height
     ]
-  }
-
-  static load(fileLocation, w, h, direction, moves, centerX, centerY, canvasWidth, canvasHeight, cfg, getOtherAssets) {
-    const animations = {};
-
-    cfg.forEach((animation, idx) => animations[animation.name] = new Animation(fileLocation, w, h, direction, moves, centerX, centerY, canvasWidth, canvasHeight, idx, animation.frames, getOtherAssets));
-    
-    return animations;
   }
 }

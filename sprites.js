@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17201177833N"
+import Animation from "./animation.js?cache-busting=17201204683N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const width = 300;
@@ -20,7 +20,7 @@ export default class Sprites {
 
   sprites = {
     ship: [
-      { row: 0, frames: 9, scale: 0.25, levelOfChill: 1, reactsToCollisions: true },
+      { row: 0, frames: 9, scale: 0.25, levelOfChill: 1, moves: true, reactsToCollisions: true },
       { row: 1, frames: 9, scale: 0.25, levelOfChill: 1, sound: 'crash' },
     ],
     star: [
@@ -50,18 +50,7 @@ export default class Sprites {
     ]
   }
 
-  buildStatic(name, centerX, centerY, direction = 0) {
-    return this._build(name, centerX, centerY, direction, false)
-  }
-
-  buildDynamic(name, centerX, centerY, direction = 0) {
-    const animation = this._build(name, centerX, centerY, direction, true)
-    
-    return animation;
-  }
-
-  _build(name, centerX, centerY, direction, moves) {
-
+  build(name, centerX, centerY) {
     const newSprite = this.sprites[name];
 
     if (newSprite) {
@@ -70,8 +59,6 @@ export default class Sprites {
         fileLocation, 
         width, 
         height, 
-        direction,
-        moves, 
         centerX, 
         centerY, 
         this.canvasWidth, 
