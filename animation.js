@@ -2,7 +2,7 @@ export default class Animation {
   constructor(name, fileLocation, width, height, direction, moves, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
     this.name = name;
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17201165233N";
+    this.image.src = fileLocation + "?cache-busting=17201177833N";
     this.width = width;
     this.height = height;
     this.direction = direction;

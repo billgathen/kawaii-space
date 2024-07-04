@@ -34,6 +34,26 @@ export default class Canvas {
     return this.assets.filter(asset => asset !== callingAsset);
   }
 
+  loadSound(sound) {
+    console.log(sound.name, sound.path)
+    fetch(`sounds/${sound.path}`)
+    .then(response => response.blob())
+    .then(blob => {
+      console.log('got blob');
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        localStorage.setItem(sound.name, base64data);
+      };
+    })
+    .catch(error => console.error('Error fetching audio:', error));
+  }
+
+  loadSounds(sounds) {
+    sounds.forEach(sound => this.loadSound(sound));
+  }
+
   animate = () => {
     if (gameFrame % throttle == 0) {
       this.ctx.clearRect(0, 0, this.width, this.height);
@@ -43,4 +63,5 @@ export default class Canvas {
     gameFrame++;
     requestAnimationFrame(this.animate);
   }
+
 }
