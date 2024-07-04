@@ -1,4 +1,4 @@
-import Canvas from "./canvas.js?cache-busting=17201204683N";
+import Canvas from "./canvas.js?cache-busting=17201225733N";
 
 const canvas = new Canvas(600);
 

@@ -1,14 +1,12 @@
-import Animation from "./animation.js?cache-busting=17201204683N"
+import Animation from "./animation.js?cache-busting=17201225733N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
-const width = 300;
-const height = 300;
+const spriteWidth = 300;
+const spriteHeight = 300;
 
 export default class Sprites {
-  constructor(canvasWidth, canvasHeight, getOtherAssets) {
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
-    this.getOtherAssets = getOtherAssets;
+  constructor(canvas) {
+    this.canvas = canvas;
   }
 
   sounds = {
@@ -18,7 +16,7 @@ export default class Sprites {
   
   successAnimation = { row: 8, frames: 12, scale: 0.25, levelOfChill: 1, oneShot: true, sound: 'gobble' }
 
-  sprites = {
+  animations = {
     ship: [
       { row: 0, frames: 9, scale: 0.25, levelOfChill: 1, moves: true, reactsToCollisions: true },
       { row: 1, frames: 9, scale: 0.25, levelOfChill: 1, sound: 'crash' },
@@ -51,21 +49,19 @@ export default class Sprites {
   }
 
   build(name, centerX, centerY) {
-    const newSprite = this.sprites[name];
+    const newAnimation = this.animations[name];
 
-    if (newSprite) {
-      const animation = new Animation(
-        name,
-        fileLocation, 
-        width, 
-        height, 
-        centerX, 
-        centerY, 
-        this.canvasWidth, 
-        this.canvasHeight, 
-        newSprite,
-        this.getOtherAssets
-      );
+    if (newAnimation) {
+      const animation = new Animation({
+        name: name,
+        fileLocation: fileLocation,
+        centerX: centerX,
+        centerY: centerY,
+        width: spriteWidth,
+        height: spriteHeight,
+        canvas: this.canvas,
+        animations: newAnimation
+      });
 
       if (name === 'ship') {
         document.addEventListener('keyup', e => {

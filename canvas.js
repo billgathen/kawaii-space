@@ -1,4 +1,4 @@
-import Sprites from "./sprites.js?cache-busting=17201204683N";
+import Sprites from "./sprites.js?cache-busting=17201225733N";
 
 const throttle = 5;
 const assetSpeed = 4;
@@ -11,7 +11,7 @@ export default class Canvas {
 
     this.canvas.width = width;
     this.canvas.height = height == 0 ? width : height; /* default to square */
-    this.sprites = new Sprites(this.canvas.width, this.canvas.height, this.getOtherAssets);
+    this.sprites = new Sprites(this); //this.canvas.width, this.canvas.height, this.getOtherAssets);
 
     this.loadSounds(Object.values(this.sprites.sounds));
 

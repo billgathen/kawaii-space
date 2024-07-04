@@ -1,22 +1,22 @@
 export default class Animation {
-  constructor(name, fileLocation, width, height, centerX, centerY, canvasWidth, canvasHeight, animations, getOtherAssets) {
-    this.name = name;
+  constructor(sprite) {
+    this.sprite = sprite;
     this.image = new Image();
-    this.image.src = fileLocation + "?cache-busting=17201204683N";
-    this.width = width;
-    this.height = height;
-    this.scale = animations[0].scale;
+    this.image.src = sprite.fileLocation + "?cache-busting=17201225733N";
+    this.centerX = sprite.centerX;
+    this.centerY = sprite.centerY;
+    this.width = sprite.width;
+    this.height = sprite.height;
+    this.scale = sprite.animations[0].scale;
     this.actualWidth = this.width * this.scale;
     this.actualHeight = this.height * this.scale;
-    this.centerX = centerX;
-    this.centerY = centerY;
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
-    this.animations = animations;
+    this.canvasWidth = sprite.canvas.width;
+    this.canvasHeight = sprite.canvas.height;
+    this.animations = sprite.animations;
     this.direction = 0;
     this.currentAnimationIdx = 0;
-    this.currentChill = animations[0].levelOfChill;
-    this.getOtherAssets = getOtherAssets;
+    this.currentChill = this.animations[0].levelOfChill;
+    this.getOtherAssets = this.sprite.canvas.getOtherAssets;
     this.frame = Math.floor(Math.random() * (this.animation.frames - 1));
 
     this.frames = this.loadAnimation();
