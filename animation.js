@@ -2,7 +2,7 @@ export default class Animation {
   constructor(sprite) {
     this.sprite = sprite;
     this.image = new Image();
-    this.image.src = sprite.fileLocation + "?cache-busting=17208145913N";
+    this.image.src = sprite.fileLocation + "?cache-busting=17208183803N";
     this.centerX = sprite.centerX;
     this.centerY = sprite.centerY;
     this.width = sprite.width;
@@ -129,6 +129,7 @@ export default class Animation {
           }
         } else if (that.animations[0].completesLevel) {
           this.sprite.canvas.nextLevel();
+          this.score = 0;
         } else {
           this.collided = true;
           if (this.animations.length > 1) { // has collision animation
@@ -153,12 +154,12 @@ export default class Animation {
   displayScore(ctx, canvasLocation) {
     if (this.score === 0) return;
 
-    const shrinkage = (3 - this.score) * 30; /* heart gets bigger as score increases */
+    const shrinkage = (this.score / this.sprite.canvas.totalGoalObjects) * 0.9; /* heart gets bigger as score increases */
 
-    canvasLocation[0] += (this.actualWidth + shrinkage) * 0.125;
-    canvasLocation[1] += (this.actualHeight + shrinkage) * 0.1;
-    canvasLocation[2] -= (this.actualWidth + shrinkage) * 0.25;
-    canvasLocation[3] -= (this.actualHeight + shrinkage) * 0.3;
+    canvasLocation[0] += (this.actualWidth / 2) * (1 - shrinkage); /* x */
+    canvasLocation[1] += (this.actualHeight / 2) * (1 - shrinkage); /* y */
+    canvasLocation[2] = this.actualWidth * shrinkage; /* width */
+    canvasLocation[3] = this.actualHeight * shrinkage; /* height */
 
     const cell = this.cell(0, 8); /* heart */
     ctx.drawImage(this.image, ...cell, ...canvasLocation);

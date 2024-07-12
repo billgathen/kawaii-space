@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17208145913N";
-import { levels } from "./config.js?cache-busting=17208145913N";
+import Sprites from "./sprites.js?cache-busting=17208183803N";
+import { levels } from "./config.js?cache-busting=17208183803N";
 
 const throttle = 5;
 const baseAssetSpeed = 4;
@@ -35,6 +35,7 @@ export default class Canvas {
   setupLevel() {
     this._assets = [];
     this.addAssets(levels[this.level]);
+    this.totalGoalObjects = this.assets.filter(asset => asset.animation.goalObject).length;
   }
 
   get width() {
