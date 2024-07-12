@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17201279123N";
-import { levels } from "./config.js?cache-busting=17201279123N";
+import Sprites from "./sprites.js?cache-busting=17208084763N";
+import { levels } from "./config.js?cache-busting=17208084763N";
 
 const throttle = 5;
 const assetSpeed = 4;
@@ -19,6 +19,10 @@ export default class Canvas {
 
     this._assets = [];
     this.addAssets(levels[0]);
+    this.levelComplete = false;
+
+    this.goalObjectsRemainingEle = document.querySelector('#assets-remaining');
+    this.setGoalObjectsRemaining();
   }
 
   get width() {
@@ -39,6 +43,17 @@ export default class Canvas {
 
   addAssets(assets) {
     assets.forEach(asset => this.addAsset(...asset) );
+  }
+
+  removeAsset(asset) {
+    this._assets = this._assets.filter(a => a !== asset);
+    this.setGoalObjectsRemaining();
+  }
+
+  setGoalObjectsRemaining() {
+    const goalObjectsRemaining = this.assets.filter(asset => asset.animation.goalObject).length;
+    this.goalObjectsRemainingEle.innerText = goalObjectsRemaining;
+    this.levelComplete = true;
   }
 
   getOtherAssets = (callingAsset) => {

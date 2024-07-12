@@ -2,7 +2,7 @@ export default class Animation {
   constructor(sprite) {
     this.sprite = sprite;
     this.image = new Image();
-    this.image.src = sprite.fileLocation + "?cache-busting=17201279123N";
+    this.image.src = sprite.fileLocation + "?cache-busting=17208084763N";
     this.centerX = sprite.centerX;
     this.centerY = sprite.centerY;
     this.width = sprite.width;
@@ -43,7 +43,10 @@ export default class Animation {
   }
 
   next(ctx, assetSpeed) {
-    if (this.animation.oneShot && this.frame + 1 === this.frames.length) return;
+    if (this.animation.oneShot && this.frame + 1 === this.frames.length) {
+      this.sprite.canvas.removeAsset(this);
+      return;
+    }
 
     if (--this.currentChill <= 0) {
       if (this.frame + 1 < this.frames.length) this.frame++;

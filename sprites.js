@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17201279123N"
+import Animation from "./animation.js?cache-busting=17208084763N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const spriteWidth = 300;
