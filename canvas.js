@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17208122323N";
-import { levels } from "./config.js?cache-busting=17208122323N";
+import Sprites from "./sprites.js?cache-busting=17208135773N";
+import { levels } from "./config.js?cache-busting=17208135773N";
 
 const throttle = 5;
 const assetSpeed = 4;
@@ -17,8 +17,21 @@ export default class Canvas {
 
     this.loadSounds(Object.values(this.sprites.sounds));
 
+    this.level = 0;
+    this.setupLevel();
+  }
+
+  nextLevel() {
+    this.level++;
+    if (this.level >= levels.length) {
+      this.level = 0;
+    }
+    this.setupLevel();
+  }
+
+  setupLevel() {
     this._assets = [];
-    this.addAssets(levels[0]);
+    this.addAssets(levels[this.level]);
   }
 
   get width() {

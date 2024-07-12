@@ -2,7 +2,7 @@ export default class Animation {
   constructor(sprite) {
     this.sprite = sprite;
     this.image = new Image();
-    this.image.src = sprite.fileLocation + "?cache-busting=17208122323N";
+    this.image.src = sprite.fileLocation + "?cache-busting=17208135773N";
     this.centerX = sprite.centerX;
     this.centerY = sprite.centerY;
     this.width = sprite.width;
@@ -127,6 +127,8 @@ export default class Animation {
           if (! that.collided) {
             this.score++;
           }
+        } else if (that.animations[0].completesLevel) {
+          this.sprite.canvas.nextLevel();
         } else {
           this.collided = true;
           if (this.animations.length > 1) { // has collision animation
