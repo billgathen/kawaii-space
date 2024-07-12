@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17208084763N"
+import Animation from "./animation.js?cache-busting=17208122323N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const spriteWidth = 300;
@@ -46,6 +46,9 @@ export default class Sprites {
     ],
     heart: [
       this.successAnimation
+    ],
+    blackhole: [
+      { row: 9, frames: 8, scale: 0.25, levelOfChill: 2, reactsToCollisions: true },
     ]
   }
 
