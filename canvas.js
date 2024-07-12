@@ -1,8 +1,8 @@
-import Sprites from "./sprites.js?cache-busting=17208135773N";
-import { levels } from "./config.js?cache-busting=17208135773N";
+import Sprites from "./sprites.js?cache-busting=17208145913N";
+import { levels } from "./config.js?cache-busting=17208145913N";
 
 const throttle = 5;
-const assetSpeed = 4;
+const baseAssetSpeed = 4;
 let gameFrame = 0;
 
 export default class Canvas {
@@ -19,12 +19,15 @@ export default class Canvas {
 
     this.level = 0;
     this.setupLevel();
+
+    this.assetSpeed = baseAssetSpeed;
   }
 
   nextLevel() {
     this.level++;
     if (this.level >= levels.length) {
       this.level = 0;
+      this.assetSpeed += 2;
     }
     this.setupLevel();
   }
@@ -87,7 +90,7 @@ export default class Canvas {
   animate = () => {
     if (gameFrame % throttle == 0) {
       this.ctx.clearRect(0, 0, this.width, this.height);
-      this.assets.forEach(asset => asset.next(this.ctx, assetSpeed));
+      this.assets.forEach(asset => asset.next(this.ctx, this.assetSpeed));
     }
     
     gameFrame++;
