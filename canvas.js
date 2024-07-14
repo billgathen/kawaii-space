@@ -1,9 +1,11 @@
-import Sprites from "./sprites.js?cache-busting=17208183803N";
-import { levels } from "./config.js?cache-busting=17208183803N";
+import Sprites from "./sprites.js?cache-busting=17209932433N";
+import { levels } from "./config.js?cache-busting=17209932433N";
 
-const throttle = 5;
 const baseAssetSpeed = 4;
-let gameFrame = 0;
+
+const frameInterval = 80; /* 12.5fps */
+let timeToNextFrame = 0;
+let lastTime = 0;
 
 export default class Canvas {
   constructor(width, height = 0) {
@@ -88,14 +90,19 @@ export default class Canvas {
     sounds.forEach(sound => this.loadSound(sound));
   }
 
-  animate = () => {
-    if (gameFrame % throttle == 0) {
+  /* Maintain consistent animation speed on all devices */
+  animate = (timestamp) => {
+    let deltatime = timestamp - lastTime;
+    lastTime = timestamp;
+    timeToNextFrame += deltatime;
+
+    if (timeToNextFrame > frameInterval) {
+      timeToNextFrame = 0;
       this.ctx.clearRect(0, 0, this.width, this.height);
       this.assets.forEach(asset => asset.next(this.ctx, this.assetSpeed));
     }
     
-    gameFrame++;
-    requestAnimationFrame(this.animate);
+    requestAnimationFrame(() => this.animate(new Date().getTime()));
   }
 
 }

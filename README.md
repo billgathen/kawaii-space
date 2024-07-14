@@ -5,7 +5,7 @@
 
 This is a work in progress! Please be gentle with me: it's my first game.
 
-Inspiration: [JavaScript Game Design For Beginners - (Free Code Camp)](https://youtu.be/GFO_txvwK_c?si=aFi1dDkq4VmsbARB) by [Franks Laboratory](http://www.youtube.com/@Frankslaboratory)
+This project would not have been possible without the excellent [JavaScript Game Design For Beginners - (Free Code Camp)](https://youtu.be/GFO_txvwK_c?si=aFi1dDkq4VmsbARB) by [Franks Laboratory](http://www.youtube.com/@Frankslaboratory)
 
 Some of the sounds in this project were created by [ViRiX Dreamcore (David Mckee)](https://www.soundcloud.com/virix). I found them on [Open Game Art](https://opengameart.org).
 
