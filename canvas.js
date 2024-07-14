@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17209958623N";
-import { levels } from "./config.js?cache-busting=17209958623N";
+import Sprites from "./sprites.js?cache-busting=17209975093N";
+import { levels } from "./config.js?cache-busting=17209975093N";
 
 const baseAssetSpeed = 4;
 

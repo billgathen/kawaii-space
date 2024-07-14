@@ -42,9 +42,24 @@ h1 {
 
 a {
   text-decoration: none;
+  position: relative;
+}
+
+a::before {
+  content: ''; /* Necessary for the pseudo-element to be generated */
+  position: absolute;
+  left: 1rem;
+  top: 0.5rem;
+  width: 0; 
+  height: 0; 
+  border-left: 1rem solid var(--light); /* Color of the triangle */
+  border-top: 0.75rem solid transparent;
+  border-bottom: 0.75rem solid transparent;
 }
 
 a, summary {
+  height: 3rem;
+  width: 3rem;
   border: 3px solid var(--light);
   border-radius: 1rem;
   background-color: var(--medium);
@@ -53,10 +68,8 @@ a, summary {
   font-size: 200%;
   font-weight: bold;
   text-align: center;
-  padding: 0.25em 0.5em;
   user-select: none;
   outline: none;
-  min-width: 4rem;
 }
 
 a:hover, summary:hover {
@@ -68,6 +81,12 @@ summary {
   cursor: pointer;
   list-style: none;
   display: inline-block;
+  color: var(--light);
+}
+
+summary::-webkit-details-marker,
+summary::marker {
+  display: none;
 }
 
 header {
