@@ -40,22 +40,58 @@ h1 {
   color: var(--medium);
 }
 
-button {
-  padding: 1em;
-  border-radius: 1em;
+a {
+  text-decoration: none;
+}
+
+a, summary {
+  border: 3px solid var(--light);
+  border-radius: 1rem;
   background-color: var(--medium);
   border-color: var(--light);
   color: black;
+  font-size: 200%;
   font-weight: bold;
+  text-align: center;
+  padding: 0.25em 0.5em;
+  user-select: none;
+  outline: none;
+  min-width: 4rem;
 }
 
-button:hover {
+a:hover, summary:hover {
   border-color: var(--medium);
   background-color: var(--light);
 }
 
+summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+}
+
+header {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+details > div {
+  position: absolute;
+  top: 0;
+  left: 3.5em;
+  z-index: 1;
+  background-color: white;
+  border: 3px solid var(--medium);
+  border-radius: 1em;
+  padding: 0.5em;
+  user-select: none;
+}
+
 canvas {
   border: 3px solid var(--medium);
+  border-radius: 1rem;
   max-width: 600px;
   max-height: 600px;
 }

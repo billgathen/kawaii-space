@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17209932433N"
+import Animation from "./animation.js?cache-busting=17209958623N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const spriteWidth = 300;
@@ -89,7 +89,9 @@ export default class Sprites {
     });
 
     document.addEventListener('touchstart', e => {
-      if (ship.collided) return;
+      const minTouchY = 80;
+
+      if (ship.collided || e.touches[0].clientY < minTouchY) return;
 
       const touchX = e.touches[0].clientX;
       if (touchX < window.innerWidth / 2) {
