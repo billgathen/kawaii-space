@@ -1,3 +1,3 @@
-import Canvas from "./canvas.js?cache-busting=17209975093N";
+import Canvas from "./canvas.js?cache-busting=17210008473N";
 
 new Canvas(600).animate(new Date().getTime());
