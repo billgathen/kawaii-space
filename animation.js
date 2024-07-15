@@ -2,7 +2,7 @@ export default class Animation {
   constructor(sprite) {
     this.sprite = sprite;
     this.image = new Image();
-    this.image.src = sprite.fileLocation + "?cache-busting=17210008473N";
+    this.image.src = sprite.fileLocation + "?cache-busting=17210048483N";
     this.centerX = sprite.centerX;
     this.centerY = sprite.centerY;
     this.width = sprite.width;

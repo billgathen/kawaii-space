@@ -1,4 +1,4 @@
-import Animation from "./animation.js?cache-busting=17210008473N"
+import Animation from "./animation.js?cache-busting=17210048483N"
 
 const fileLocation = 'images/kawaii-space-sprites.png';
 const spriteWidth = 300;
@@ -29,7 +29,7 @@ export default class Sprites {
       { row: 3, frames: 7, scale: 0.25, levelOfChill: 2 }
     ],
     alien1: [
-      { row: 4, frames: 1, scale: 0.25, levelOfChill: 1, reactsToCollisions: true, goalObject: true },
+      { row: 4, frames: 12, scale: 0.25, levelOfChill: 2, reactsToCollisions: true, goalObject: true },
       this.successAnimation
     ],
     alien2: [
