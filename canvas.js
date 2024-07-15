@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17210048483N";
-import { levels } from "./config.js?cache-busting=17210048483N";
+import Sprites from "./sprites.js?cache-busting=17210087243N";
+import { levels } from "./config.js?cache-busting=17210087243N";
 
 const baseAssetSpeed = 4;
 
@@ -20,18 +20,11 @@ export default class Canvas {
     this.loadSounds(Object.values(this.sprites.sounds));
 
     this.level = 0;
+    this.levelCompleted = false;
+    this.opacityChange = -0.01;
     this.setupLevel();
 
     this.assetSpeed = baseAssetSpeed;
-  }
-
-  nextLevel() {
-    this.level++;
-    if (this.level >= levels.length) {
-      this.level = 0;
-      this.assetSpeed += 2;
-    }
-    this.setupLevel();
   }
 
   setupLevel() {
@@ -90,8 +83,27 @@ export default class Canvas {
     sounds.forEach(sound => this.loadSound(sound));
   }
 
+  transitionLevels() {
+    this.assetSpeed = 0;
+    this.ctx.globalAlpha = Number(this.ctx.globalAlpha + this.opacityChange).toFixed(2);
+
+    if (this.ctx.globalAlpha <= 0) {
+      this.opacityChange *= -1;
+      this.nextLevel();
+    }
+
+    if (this.ctx.globalAlpha >= 1) {
+      this.levelCompleted = false;
+      this.ctx.globalAlpha = 1;
+      this.assetSpeed = baseAssetSpeed;
+      this.opacityChange *= -1;
+    }
+  }
+
   /* Maintain consistent animation speed on all devices */
   animate = (timestamp) => {
+    if (this.levelCompleted) this.transitionLevels();
+
     let deltatime = timestamp - lastTime;
     lastTime = timestamp;
     timeToNextFrame += deltatime;
@@ -105,4 +117,12 @@ export default class Canvas {
     requestAnimationFrame(() => this.animate(new Date().getTime()));
   }
 
+  nextLevel() {
+    this.level++;
+    if (this.level >= levels.length) {
+      this.level = 0;
+      this.assetSpeed += 2;
+    }
+    this.setupLevel();
+  }
 }
