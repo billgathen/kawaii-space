@@ -1,5 +1,5 @@
-import Sprites from "./sprites.js?cache-busting=17210087243N";
-import { levels } from "./config.js?cache-busting=17210087243N";
+import Sprites from "./sprites.js?cache-busting=17210098083N";
+import { levels } from "./config.js?cache-busting=17210098083N";
 
 const baseAssetSpeed = 4;
 
@@ -25,6 +25,8 @@ export default class Canvas {
     this.setupLevel();
 
     this.assetSpeed = baseAssetSpeed;
+    this.assetSpeed = this.assetSpeed;
+    this.savedAssetSpeed = null;
   }
 
   setupLevel() {
@@ -84,6 +86,7 @@ export default class Canvas {
   }
 
   transitionLevels() {
+    this.savedAssetSpeed ||= this.assetSpeed;
     this.assetSpeed = 0;
     this.ctx.globalAlpha = Number(this.ctx.globalAlpha + this.opacityChange).toFixed(2);
 
@@ -95,7 +98,8 @@ export default class Canvas {
     if (this.ctx.globalAlpha >= 1) {
       this.levelCompleted = false;
       this.ctx.globalAlpha = 1;
-      this.assetSpeed = baseAssetSpeed;
+      this.assetSpeed = this.savedAssetSpeed;
+      this.savedAssetSpeed = null;
       this.opacityChange *= -1;
     }
   }
@@ -121,7 +125,7 @@ export default class Canvas {
     this.level++;
     if (this.level >= levels.length) {
       this.level = 0;
-      this.assetSpeed += 2;
+      this.savedAssetSpeed += 2;
     }
     this.setupLevel();
   }
