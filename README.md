@@ -1,7 +1,7 @@
 # Kawaii Space (still in development)
 ## by Bill Gathen @billgathen on GitHub
 
-[Try it here!](https://billgathen.github.io/kawaii-space) 🚀
+[Try it here!](https://billgathen.github.io/kawaii-space) 🚀 (works on both desktop and mobile)
 
 This is a work in progress! Please be gentle with me: it's my first game.
 
